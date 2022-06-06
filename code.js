@@ -99,7 +99,6 @@ var merge = function (nums1, m, nums2, n) {
 
 
 //合并两个有序链表
-//迭代
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
@@ -107,20 +106,18 @@ var merge = function (nums1, m, nums2, n) {
  *     this.next = (next===undefined ? null : next)
  * }
  */
+//迭代
 /**
  * @param {ListNode} list1
  * @param {ListNode} list2
  * @return {ListNode}
  */
 var mergeTwoLists = function (list1, list2) {
-
   //链表头
   const preList = new ListNode(-1);
   //指针
   let pre = preList;
-
   while (list1 !== null && list2 !== null) {
-
     if (list1.val <= list2.val) {
       pre.next = list1;
       list1 = list1.next
@@ -130,7 +127,6 @@ var mergeTwoLists = function (list1, list2) {
     }
     pre = pre.next;
   }
-
   if (list1 === null) pre.next = list2;
   if (list2 === null) pre.next = list1;
   return preList.next;
@@ -160,3 +156,62 @@ var mergeTwoLists = function (list1, list2) {
 时间复杂度：O(n + m)O(n+m)，其中 nn 和 mm 分别为两个链表的长度。因为每次调用递归都会去掉 l1 或者 l2 的头节点（直到至少有一个链表为空），函数 mergeTwoList 至多只会递归调用每个节点一次。因此，时间复杂度取决于合并后的链表长度，即 O(n+m)O(n+m)。
 空间复杂度：O(n + m)O(n+m)，其中 nn 和 mm 分别为两个链表的长度。递归调用 mergeTwoLists 函数时需要消耗栈空间，栈空间的大小取决于递归调用的深度。结束递归调用时 mergeTwoLists 函数最多调用 n+mn+m 次，因此空间复杂度为 O(n+m)O(n+m)。
 */
+
+
+//判断环形链表
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var hasCycle = function (head) {
+  let p1 = head;
+  if (!head || !head.next) return false;
+  let p2 = head.next;
+
+  while (p2 && p2.next) {
+    if (p2 === p1) {
+      return true
+    }
+    p2 = p2.next.next;
+    p1 = p1.next;
+  }
+  return false
+};
+
+
+//相交链表
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+//哈希集合
+var getIntersectionNode = function (headA, headB) {
+  let visited = new Set();
+  let p = headA;
+  while (p) {
+    visited.add(p);
+    p = p.next;
+  }
+
+  p = headB;
+  while (p) {
+    if (visited.has(p)) return p;
+    p = p.next;
+  }
+  return null;
+};
+//O(m+n)
+//O(m)
+//双指针
+var getIntersectionNode = function (headA, headB) {
+  let p1 = headA,
+    p2 = headB;
+  while (p1 !== p2) {
+    p1 === null ? p1 = headB : p1 = p1.next;
+    p2 === null ? p2 = headA : p2 = p2.next;
+  }
+  return p1;
+};
+//m+n
+//1
