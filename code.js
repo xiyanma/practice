@@ -215,3 +215,86 @@ var getIntersectionNode = function (headA, headB) {
 };
 //m+n
 //1
+
+
+//有效括号
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function (s) {
+  let hash = new Map([
+    [')', '('],
+    ['}', '{'],
+    [']', '['],
+  ]);
+
+  let zh = [];
+
+  for (let ch of s) {
+    if (hash.has(ch)) {
+      if (!zh.length || zh[zh.length - 1] !== hash.get(ch)) return false;
+      zh.pop();
+    } else {
+      zh.push(ch);
+    }
+  }
+  return !zh.length
+};
+//n
+//n+6
+
+
+//最长公共前缀
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+var longestCommonPrefix = function (strs) {
+  let l = strs.length;
+  for (j = 0; j < strs[0].length; j++) {
+    for (i = 0; i < l - 1; i++) {
+      if (strs[i].charAt(j) !== strs[i + 1].charAt(j)) break;
+    }
+    if (i !== l - 1) break
+  }
+  return strs[0].substring(0, j)
+}
+//mn
+//n
+
+
+//二叉树的最大深度
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function (root) {
+  if (!root) return 0;
+  const left = maxDepth(root.left);
+  const right = maxDepth(root.right);
+  return (Math.max(left, right) + 1);
+};
+//O(n)，n为二叉树节点个数
+//O(height),height为二叉树高度。
+
+
+//二叉搜索树的最近公共祖先
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+  while (true) {
+    if (root.val < p.val && root.val < q.val) {
+      root = root.right;
+    } else if (root.val > p.val && root.val > q.val) {
+      root = root.left;
+    } else break
+  }
+  return root
+};
+//n
+//1
