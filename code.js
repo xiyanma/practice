@@ -5,15 +5,15 @@ var addStrings = function (num1, num2) {
     add = 0;
   const ans = [];
   while (i >= 0 || j >= 0 || add != 0) {
-    const x = i >= 0 ? num1.charAt(i) - '0' : 0;
-    const y = j >= 0 ? num2.charAt(j) - '0' : 0;
+    const x = i >= 0 ? num1.charAt(i) - "0" : 0;
+    const y = j >= 0 ? num2.charAt(j) - "0" : 0;
     const result = x + y + add;
     ans.push(result % 10);
     add = Math.floor(result / 10);
     i -= 1;
     j -= 1;
   }
-  return ans.reverse().join('');
+  return ans.reverse().join("");
 };
 
 //俺自己写的捏
@@ -28,25 +28,24 @@ var addStrings = function (num1, num2) {
  * @return {string}
  */
 var addStrings = function (num1, num2) {
-
   let a = num1.length - 1,
     b = num2.length - 1;
   let add = 0;
   let r = [];
   while (a >= 0 || b >= 0 || add > 0) {
-    let i = a >= 0 ? num1.charAt(a) - '0' : 0;
-    let j = b >= 0 ? num2.charAt(b) - '0' : 0;
+    let i = a >= 0 ? num1.charAt(a) - "0" : 0;
+    let j = b >= 0 ? num2.charAt(b) - "0" : 0;
 
     let result = i + j + add;
 
-    add = Math.floor(result / 10)
+    add = Math.floor(result / 10);
     r.unshift(result % 10);
 
     a--;
     b--;
   }
 
-  return r.join('')
+  return r.join("");
 };
 
 /*
@@ -97,7 +96,6 @@ var merge = function (nums1, m, nums2, n) {
 排序序列长度为 m+nm+n，套用快速排序的空间复杂度即可，平均情况为 O(\log(m+n))O(log(m+n))。
 */
 
-
 //合并两个有序链表
 /**
  * Definition for singly-linked list.
@@ -120,10 +118,10 @@ var mergeTwoLists = function (list1, list2) {
   while (list1 !== null && list2 !== null) {
     if (list1.val <= list2.val) {
       pre.next = list1;
-      list1 = list1.next
+      list1 = list1.next;
     } else {
       pre.next = list2;
-      list2 = list2.next
+      list2 = list2.next;
     }
     pre = pre.next;
   }
@@ -145,10 +143,10 @@ var mergeTwoLists = function (list1, list2) {
   if (list1 === null) return list2;
   if (list2 === null) return list1;
   if (list1.val <= list2.val) {
-    list1.next = mergeTwoLists(list1.next, list2)
+    list1.next = mergeTwoLists(list1.next, list2);
     return list1;
   } else {
-    list2.next = mergeTwoLists(list1, list2.next)
+    list2.next = mergeTwoLists(list1, list2.next);
     return list2;
   }
 };
@@ -156,7 +154,6 @@ var mergeTwoLists = function (list1, list2) {
 时间复杂度：O(n + m)O(n+m)，其中 nn 和 mm 分别为两个链表的长度。因为每次调用递归都会去掉 l1 或者 l2 的头节点（直到至少有一个链表为空），函数 mergeTwoList 至多只会递归调用每个节点一次。因此，时间复杂度取决于合并后的链表长度，即 O(n+m)O(n+m)。
 空间复杂度：O(n + m)O(n+m)，其中 nn 和 mm 分别为两个链表的长度。递归调用 mergeTwoLists 函数时需要消耗栈空间，栈空间的大小取决于递归调用的深度。结束递归调用时 mergeTwoLists 函数最多调用 n+mn+m 次，因此空间复杂度为 O(n+m)O(n+m)。
 */
-
 
 //判断环形链表
 /**
@@ -170,14 +167,13 @@ var hasCycle = function (head) {
 
   while (p2 && p2.next) {
     if (p2 === p1) {
-      return true
+      return true;
     }
     p2 = p2.next.next;
     p1 = p1.next;
   }
-  return false
+  return false;
 };
-
 
 //相交链表
 /**
@@ -208,14 +204,13 @@ var getIntersectionNode = function (headA, headB) {
   let p1 = headA,
     p2 = headB;
   while (p1 !== p2) {
-    p1 === null ? p1 = headB : p1 = p1.next;
-    p2 === null ? p2 = headA : p2 = p2.next;
+    p1 === null ? (p1 = headB) : (p1 = p1.next);
+    p2 === null ? (p2 = headA) : (p2 = p2.next);
   }
   return p1;
 };
 //m+n
 //1
-
 
 //有效括号
 /**
@@ -224,9 +219,9 @@ var getIntersectionNode = function (headA, headB) {
  */
 var isValid = function (s) {
   let hash = new Map([
-    [')', '('],
-    ['}', '{'],
-    [']', '['],
+    [")", "("],
+    ["}", "{"],
+    ["]", "["],
   ]);
 
   let zh = [];
@@ -239,11 +234,10 @@ var isValid = function (s) {
       zh.push(ch);
     }
   }
-  return !zh.length
+  return !zh.length;
 };
 //n
 //n+6
-
 
 //最长公共前缀
 /**
@@ -256,13 +250,12 @@ var longestCommonPrefix = function (strs) {
     for (i = 0; i < l - 1; i++) {
       if (strs[i].charAt(j) !== strs[i + 1].charAt(j)) break;
     }
-    if (i !== l - 1) break
+    if (i !== l - 1) break;
   }
-  return strs[0].substring(0, j)
-}
+  return strs[0].substring(0, j);
+};
 //mn
 //n
-
 
 //二叉树的最大深度
 /**
@@ -273,11 +266,10 @@ var maxDepth = function (root) {
   if (!root) return 0;
   const left = maxDepth(root.left);
   const right = maxDepth(root.right);
-  return (Math.max(left, right) + 1);
+  return Math.max(left, right) + 1;
 };
 //O(n)，n为二叉树节点个数
 //O(height),height为二叉树高度。
-
 
 //二叉搜索树的最近公共祖先
 /**
@@ -292,9 +284,37 @@ var lowestCommonAncestor = function (root, p, q) {
       root = root.right;
     } else if (root.val > p.val && root.val > q.val) {
       root = root.left;
-    } else break
+    } else break;
   }
-  return root
+  return root;
 };
 //n
 //1
+
+//将有序数组转换为二叉搜索树
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
+var sortedArrayToBST = function (nums) {
+  function help(nums, left, right) {
+    if (left > right) return null;
+    let mid = (left + right) >>> 1;
+    return new TreeNode(
+      nums[mid],
+      help(nums, left, mid - 1),
+      help(nums, mid + 1, right)
+    );
+  }
+  return help(nums, 0, nums.length - 1);
+};
+//n
+//log(n)
