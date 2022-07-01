@@ -318,3 +318,37 @@ var sortedArrayToBST = function (nums) {
 };
 //n
 //log(n)
+
+//给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+//你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+//哈希表
+//n  n
+//排序法
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var majorityElement = function (nums) {
+  nums.sort((a, b) => a - b);
+  return nums[parseInt(nums.length / 2)];
+};
+// nlogn;
+// logn;
+//摩尔投票法
+var majorityElement = function (nums) {
+  let count = 0,
+    more = null;
+  for (let i = 0; i < nums.length; i++) {
+    if (more === nums[i]) {
+      count++;
+    } else if (count === 0) {
+      more = nums[i];
+      count = 1;
+    } else {
+      count--;
+    }
+  }
+  return more;
+};
+//   n
+//   1
