@@ -352,3 +352,47 @@ var majorityElement = function (nums) {
 };
 //   n
 //   1
+
+
+//链表反转
+//迭代
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function (head) {
+  //注意cur  pre都是相对于原始链表而言的！移动的也是原始链表节点
+  let cur = head, pre = null;
+  while (cur) {
+    const nextNode = cur.next;
+
+    //核心改变指向
+    cur.next = pre;
+    //移动节点
+    pre = cur;
+    cur = nextNode;
+  }
+  return pre
+};
+//n
+//1
+
+//递归
+var reverseList = function (head) {
+  if ((head === null) || (head.next === null)) {
+    return head;
+  }
+  let child = reverseList(head.next);
+  head.next.next = head;
+  head.next = null;
+  return child
+};
+//n
+//n
