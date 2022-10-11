@@ -401,7 +401,6 @@ var reverseList = function (head) {
 /*
 实现一个方法log, 满足以下要求
 const logStr = log(1000);
-
 logStr(1);
 logStr(2);
 logStr(3);
