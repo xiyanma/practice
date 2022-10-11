@@ -396,3 +396,56 @@ var reverseList = function (head) {
 };
 //n
 //n
+
+
+/*
+实现一个方法log, 满足以下要求
+const logStr = log(1000);
+
+logStr(1);
+logStr(2);
+logStr(3);
+间隔1s打印1 2 3
+*/
+class Events {
+  constructor() {
+    this.events = [];
+    this.count = 0;
+  }
+
+  call(val) {
+    const task = () =>
+      new Promise((rs) => {
+        this.count += 1;
+        setTimeout(() => {
+          console.log(val);
+          rs();
+        }, time);
+      }).then(() => {
+        this.count -= 1;
+        if (this.events.length) this.events.shift()();
+      });
+
+    if (this.count >= 1) {
+      this.events.push(task);
+    } else {
+      task();
+    }
+  }
+}
+
+function log(time) {
+  const ev = new Events();
+
+  function logger(value) {
+    ev.call(value);
+  }
+
+  return logger;
+}
+
+const logStr = log(1000);
+
+logStr(1);
+logStr(2);
+logStr(3);
