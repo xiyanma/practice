@@ -543,3 +543,21 @@ void async function () {
   }
   console.log(Math.max(dp[n][0], dp[n][1]))
 }()
+
+
+/* 请JavaScript 实现 reduce() 方法函数  */
+Array.prototype.testReduce = function (fn, initialValue) {
+  for (let i = 0; i < this.length; i++) {
+    if (typeof initialValue === 'undefined') {
+      initialValue = fn(this[i], this[i + 1], i + 1, this); ++i;
+    } else {
+      initialValue = fn(initialValue, this[i], i, this);
+    }
+  } return initialValue;
+}
+// 运行
+[1, 2, 3, 4].testReduce(function (prev, next, curr, array) {
+  return prev + next;
+})
+
+
