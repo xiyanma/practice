@@ -442,9 +442,104 @@ function log(time) {
 
   return logger;
 }
-
 const logStr = log(1000);
-
 logStr(1);
 logStr(2);
 logStr(3);
+
+
+
+/**
+   * 二分算法
+   * @param {*} arr 
+   * @param {*} value 
+   */
+function binarySearch(arr, value) {
+  let min = 0;
+  let max = arr.length - 1;
+
+  while (min <= max) {
+    const mid = Math.floor((min + max) / 2);
+
+    if (arr[mid] === value) {
+      return mid;
+    } else if (arr[mid] > value) {
+      max = mid - 1;
+    } else {
+      min = mid + 1;
+    }
+  }
+  return 'Not Found';
+}
+
+
+/* 
+给定一个整数数组，求不相邻的子集的最大和。
+举例：
+输入 [2, 4, 10, 5, 8, 9, 3] <--- array
+输出 2+10+8+3=23
+
+f(0) = 原题的答案
+f(i) 从i开始到最右边的子集的最大和。
+
+i   i + 1. i + 2 , ....
+a.   b.    c ....
+f(i) = 包含a，就不可能包含b, a后面得从c开始 array[i] + f(i+2)
+f(i) = 包含b  ,f(i+1)
+
+f(i) = Math.max(array[i] + f(i+2), f(i+1))
+*/
+function subsequence(n, array) {
+  //f(i) = Math.max(array[i] + f(i-2), f(i-1))
+  let dp = [];
+  dp[0] = array[0] > 0 ? array[0] : 0;
+  dp[1] = Math.max(array[0], array[1]) > 0 ? Math.max(array[0], array[1]) : 0;
+  for (let i = 2; i < array.length; i++) {
+    dp[i] = Math.max(array[i] + dp[i - 2], dp[i - 1])
+  }
+  return dp[array.length - 1]
+}
+
+//降低空间复杂度 n=>1
+function subsequence(n, array) {
+  //f(i) = Math.max(array[i] + f(i-2), f(i-1))
+  let first = array[0] > 0 ? array[0] : 0;
+  let sec = Math.max(array[0], array[1]) > 0 ? Math.max(array[0], array[1]) : 0;
+  if (n === 1) {
+    return first
+  } else if (n === 2) {
+    return sec
+  }
+  let third;
+  for (let i = 2; i < array.length; i++) {
+    third = Math.max(array[i] + first, sec)
+    first = sec;
+    sec = third;
+  }
+  return third
+}
+
+
+/* 
+给定一个整数数组，求不相邻Pair最大和。
+举例：
+输入 [2, 4, 10, 5, 8, 9, 3]
+输出 19（即 9 + 10）
+*/
+void async function () {
+  let n = await readline();
+  let a = await readline();
+  let arr = a.split(' ').map(x => parseInt(x));
+  var dp = new Array(n + 1);
+  for (var i = 0; i <= arr.length; i++) {
+    dp[i] = new Array(2).fill(0);
+  }
+  if (n === 1) return arr[0]
+  dp[1][1] = arr[0];
+  dp[1][0] = 0;
+  for (i = 2; i <= n; i++) {
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
+    dp[i][1] = dp[i - 1][0] + arr[i - 1]
+  }
+  console.log(Math.max(dp[n][0], dp[n][1]))
+}()
