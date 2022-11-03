@@ -662,3 +662,21 @@ function deepClone(target) {
 }
 
 
+/* 栈实现队列 */
+class queue {
+  constructor() {
+    this.stack1 = []
+    this.stack2 = []
+  }
+  in(val) {
+    this.stack1.push(val)
+  }
+  out() {
+    while (this.stack1.length) {
+      this.stack2.push(this.stack1.pop())
+    }
+    return this.stack2.pop()
+  }
+}
+
+
