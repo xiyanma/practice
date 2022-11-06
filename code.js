@@ -680,3 +680,19 @@ class queue {
 }
 
 
+/* 节流 */
+function throttled(fn, dalay) {
+  let timer = null;
+  let startTime = new Date();
+  return function () {
+    let nowTime = new Date();
+    let remaining = dalay - (nowTime - startTime)
+    clearTimeout(timer)
+    if (remaining <= 0) {
+      fn.apply(this, arguments)
+      startTime = Date.now()
+    } else {
+      timer = setTimeout(fn, remaining);
+    }
+  }
+}
