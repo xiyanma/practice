@@ -40,11 +40,9 @@ var addStrings = function (num1, num2) {
 
     add = Math.floor(result / 10);
     r.unshift(result % 10);
-
     a--;
     b--;
   }
-
   return r.join("");
 };
 
@@ -545,123 +543,6 @@ void async function () {
 }()
 
 
-/* 请JavaScript 实现 reduce() 方法函数  */
-Array.prototype.testReduce = function (fn, initialValue) {
-  for (let i = 0; i < this.length; i++) {
-    if (typeof initialValue === 'undefined') {
-      initialValue = fn(this[i], this[i + 1], i + 1, this); ++i;
-    } else {
-      initialValue = fn(initialValue, this[i], i, this);
-    }
-  } return initialValue;
-}
-// 运行
-[1, 2, 3, 4].testReduce(function (prev, next, curr, array) {
-  return prev + next;
-})
-
-
-//* 深拷贝 */
-function deepcopy(obj) {
-  if (!obj && typeof obj !== 'object') return obj;
-
-  let newObj = Array.isArray(obj) ? [] : {};
-  for (let key in obj) {
-    newObj[key] = deepcopy(obj[key])
-  }
-  return newObj
-}
-
-function deepCopy(obj) {
-  const stack = new WeakMap();
-  const clone = function (obj) {
-    if (!obj && typeof obj !== 'object') return obj;
-
-    const newObject = Array.isArray(obj) ? [] : {};
-
-    for (let key in obj) {
-      const val = object[key];
-      if (typeof val === "object") {
-        if (!stack.has(val)) {
-          const res = clone(val);
-          stack.set(val, res);
-        }
-        newObject[key] = stack.get(val);
-      } else {
-        newObject[key] = clone(val);
-      }
-    }
-
-    return newObject;
-  };
-
-  return clone(obj);
-}
-
-function deepClone(target) {
-  const map = new WeakMap()
-
-  function isObject(target) {
-    return (typeof target === 'object' && target) || typeof target === 'function'
-  }
-
-  function clone(data) {
-    if (!isObject(data)) {
-      return data
-    }
-    if ([Date, RegExp].includes(data.constructor)) {
-      return new data.constructor(data)
-    }
-    if (typeof data === 'function') {
-      return new Function('return ' + data.toString())()
-    }
-    const exist = map.get(data)
-    if (exist) {
-      return exist
-    }
-    if (data instanceof Map) {
-      const result = new Map()
-      map.set(data, result)
-      data.forEach((val, key) => {
-        if (isObject(val)) {
-          result.set(key, clone(val))
-        } else {
-          result.set(key, val)
-        }
-      })
-      return result
-    }
-    if (data instanceof Set) {
-      const result = new Set()
-      map.set(data, result)
-      data.forEach(val => {
-        if (isObject(val)) {
-          result.add(clone(val))
-        } else {
-          result.add(val)
-        }
-      })
-      return result
-    }
-    const keys = Reflect.ownKeys(data)
-    const allDesc = Object.getOwnPropertyDescriptors(data)
-    const result = Object.create(Object.getPrototypeOf(data), allDesc)
-    map.set(data, result)
-    keys.forEach(key => {
-      const val = data[key]
-      if (isObject(val)) {
-        result[key] = clone(val)
-      } else {
-        result[key] = val
-      }
-    })
-    return result
-  }
-
-  return clone(target)
-}
-
-
 /* 栈实现队列 */
 class queue {
   constructor() {
@@ -679,20 +560,3 @@ class queue {
   }
 }
 
-
-/* 节流 */
-function throttled(fn, dalay) {
-  let timer = null;
-  let startTime = new Date();
-  return function () {
-    let nowTime = new Date();
-    let remaining = dalay - (nowTime - startTime)
-    clearTimeout(timer)
-    if (remaining <= 0) {
-      fn.apply(this, arguments)
-      startTime = Date.now()
-    } else {
-      timer = setTimeout(fn, remaining);
-    }
-  }
-}
