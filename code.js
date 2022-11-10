@@ -560,3 +560,81 @@ class queue {
   }
 }
 
+
+// 对页面上所有 a 标签， 在其被点击时，判断其 href 是否是以 https 开头.
+// 如果是，则不做任何处理；如果不是，则 console.warn 输出有问题的链接。
+
+// 题目一作答：请实现此可以在浏览器环境中运行的代码
+a.addEventListener(click, fn, false)
+function fn(e) {
+  const str = e.target.href.split(0, 5)
+  if (str !== 'https') {
+    console.warn(e.target.href)
+  }
+}
+
+
+// 实现一个事件收发器 Event 类，继承自此类的对象拥有 on,off,once 和 trigger 方法
+const myEvent = new Event;
+function log(val) { console.log(val); };
+myEvent.on('foo_event', log);
+myEvent.trigger('foo_event', 'abc'); // 打印出 abc
+myEvent.off('foo_event', log);
+myEvent.trigger('foo_event', 'abc'); // 打印出 undefined
+
+// 题目二作答：实现下面的 Event 类
+class Event {
+  construtor() {
+    this.eventlist = {}
+  }
+
+  on(event, fn) {
+    if (!this.eventlist[event]) this.eventlist[event] = []
+    this.eventlist[event].push(fn)
+  }
+
+  trigger(event, val) {
+    if (this.eventlist[event]) {
+      this.eventlist[event].forEach((fn) => fn(val))
+    }
+  }
+
+  off(event, fn) {
+    for (i = 0; i < this.eventlist[event].length; i++) {
+      if (this.eventlist[event][i] === fn) {
+        this.eventlist[event].splice(i, 1)
+      }
+    }
+  }
+
+  // once(val){
+  // }
+}
+
+
+// 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+// 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+
+// 输入：n = 2
+// 输出：2
+// 解释：有两种方法可以爬到楼顶。这部分可以不用输出。
+// 1. 1 阶 + 1 阶
+// 2. 2 阶
+
+// 题目三作答：实现下面的爬楼梯计算程序
+/**
+ * @param {number} n
+ * @return {number}
+ */
+
+var climbStairs = function (n) {
+  let f = new Array(n);
+  f[0] = 0;
+  f[1] = 1;
+  for (i = 2; i <= n + 1; i++) {
+    f[i] = f[i - 1] + f[i - 2];
+  }
+  return f[n + 1];
+};
+climbStairs(3);
+
