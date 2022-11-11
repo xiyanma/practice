@@ -527,3 +527,98 @@ var climbStairs = function (n) {
 };
 climbStairs(3);
 
+
+/*
+给定5个数字（0到9），如（ 0 2 4 5 6） 按要求组成三位数乘二位数的算式，并算出得数。
+积最大：
+积最小：
+写出代码实现。
+
+20，456//min
+24，506
+
+20，654
+64，520//max
+
+-- 不能0开头
+0 2 4 5 6
+XXX * XX
+620 * 54 = 33480
+：
+520   64 = 31200
+
+规律：
+1.max放最高位
+2.max  位同样高，优先给两位数用
+3.0不能放在任何数的第一位 */
+//todo
+
+
+/* 
+给定一个数组，有一个数字出现了1次，其他所有数字都出现了2次，要求复杂度O(n), 不使用额外O(n)存储。
+举例：
+输入 [1, 2, 3, 2, 1, 5, 5]
+输出 3
+*/
+const arr = [1, 2, 3, 2, 1, 5, 5];
+let ret = 0;
+function fn() {
+  for (leti = 0; i < arr.length; i++) {
+    ret = arr[i] ^ ret
+  }
+  return ret
+}
+
+
+/* LRU缓存机制
+运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作：
+获取数据 get 和 写入数据 put 。
+获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。
+写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。
+示例:
+LRUCache cache = new LRUCache( 2 // 缓存容量 ;
+
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // 返回  1
+cache.put(3, 3);    // 该操作会使得密钥 2 作废
+cache.get(2);       // 返回 -1 (未找到)
+cache.put(4, 4);    // 该操作会使得密钥 1 作废
+cache.get(1);       // 返回 -1 (未找到)
+cache.get(3);       // 返回  3
+cache.get(4);       // 返回  4
+*/
+/**
+ * @param {number} capacity
+ */
+var LRUCache = function (capacity) {
+  this.map = new Map();
+  this.capacity = capacity;
+};
+
+LRUCache.prototype.get = function (key) {
+  if (this.map.has(key)) {
+    const val = this.map.get(key)
+    this.map.delete(key);
+    this.map.set(key, val)
+    return val
+  } else return -1
+
+};
+
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+LRUCache.prototype.put = function (key, value) {
+  if (this.map.has(key)) {
+    this.map.delete(key);
+    this.map.set(key, value)
+  } else {
+    this.map.set(key, value)
+    if (this.map.size > this.capacity) {
+      this.map.delete(this.map.keys().next().value)
+    }
+  }
+};

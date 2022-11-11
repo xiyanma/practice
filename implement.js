@@ -122,6 +122,7 @@ function deepClone(target) {
 以 “use” 开头
 其中的所有 state 和副作用都是完全隔离的
  */
+//todo
 function useFriendStatus(friendID) {
     const [isOnline, setIsOnline] = useState(null);
 
@@ -130,3 +131,33 @@ function useFriendStatus(friendID) {
     return isOnline;
 }
 //16.8.6
+
+
+/* Trim */
+str.replace(/^\s+|\s+$/g, '');
+
+
+/* - curry */
+// 初阶：
+const myAdd = (x, y) => (z) => x + y + z
+myAdd(1, 2)(3)
+
+// 中阶：
+const _add = (a, b, c) => a + b + c;
+myAdd(1)(2)(6)
+const curry = (fn, ...arg) => {
+    return arg.length >= fn.length ?
+        fn(...arg) :
+        (..._arg) => curry(fn, ...arg, ..._arg);
+}
+const add = curry(_add)
+
+
+/* 请JavaScript 实现 reduce() 方法函数  */
+Array.prototype.myReduce = function (fn, initialValue) {
+    for (let i = 0; i < this.length; i++) {
+        if (typeof initialValue === 'undefined') {
+            initialValue = fn(this[i], this[i + 1], i + 1, this); ++i;
+        } else { initialValue = fn(initialValue, this[i], i, this); }
+    } return initialValue;
+}

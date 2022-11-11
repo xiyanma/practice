@@ -28,6 +28,10 @@ class Event {
         this.eventlist[event].push(fn)
     }
 
+    once() {
+
+    }
+
     trigger(event, val) {
         if (this.eventlist[event]) {
             this.eventlist[event].forEach((fn) => fn(val))
