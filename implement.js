@@ -161,3 +161,19 @@ Array.prototype.myReduce = function (fn, initialValue) {
         } else { initialValue = fn(initialValue, this[i], i, this); }
     } return initialValue;
 }
+
+
+/* 实现new */
+function objectFactory() {
+
+    var obj = new Object(),
+
+        Constructor = [].shift.call(arguments);
+
+    obj.__proto__ = Constructor.prototype;
+
+    var ret = Constructor.apply(obj, arguments);
+
+    return typeof ret === 'object' ? ret : obj;
+
+};
