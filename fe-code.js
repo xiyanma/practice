@@ -28,8 +28,13 @@ class Event {
         this.eventlist[event].push(fn)
     }
 
-    once() {
-
+    once(event, fn) {
+        const oncefn = () => {
+            fn();
+            this.off(event, oncefn);
+        }
+        if (!this.eventlist[event]) this.eventlist[event] = []
+        this.eventlist[event].push(oncefn)
     }
 
     trigger(event, val) {
@@ -45,10 +50,6 @@ class Event {
             }
         }
     }
-
-    //todo
-    // once(val){
-    // }
 }
 
 
