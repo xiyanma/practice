@@ -1,23 +1,39 @@
-// 对页面上所有 a 标签， 在其被点击时，判断其 href 是否是以 https 开头.
-// 如果是，则不做任何处理；如果不是，则 console.warn 输出有问题的链接。
-// 题目一作答：请实现此可以在浏览器环境中运行的代码
-a.addEventListener(click, fn, false)
+/* 对页面上所有 a 标签， 在其被点击时，判断其 href 是否是以 https 开头.
+如果是，则不做任何处理；如果不是，则 console.warn 输出有问题的链接。
+题目一作答：请实现此可以在浏览器环境中运行的代码 */
+const a = document.getElementsByTagName('a')
 function fn(e) {
-    const str = e.target.href.split(0, 5)
+    const e = e || window.event;
+    const str = e.target.href.slice(0, 5)
     if (str !== 'https') {
         console.warn(e.target.href)
     }
 }
+for (i = 0; i < a.length; i++) {
+    a[i].addEventListener('click', fn, false)
+}
+
+/* 事件委托写法 */
+const parent = document.getElementById('parent');
+parent.onclick = (e) => {
+    const e = e || window.event;
+    if (e.target.innerHTML === 'a') {
+        const str = e.target.href.slice(0, 5)
+        if (str !== 'https') {
+            console.warn(e.target.href)
+        }
+    }
+}
 
 
-// 实现一个事件收发器 Event 类，继承自此类的对象拥有 on,off,once 和 trigger 方法
+/*  实现一个事件收发器 Event 类，继承自此类的对象拥有 on,off,once 和 trigger 方法 */
 const myEvent = new Event;
 function log(val) { console.log(val); };
 myEvent.on('foo_event', log);
 myEvent.trigger('foo_event', 'abc'); // 打印出 abc
 myEvent.off('foo_event', log);
 myEvent.trigger('foo_event', 'abc'); // 打印出 undefined
-// 题目二作答：实现下面的 Event 类
+/* 题目二作答：实现下面的 Event 类 */
 class Event {
     construtor() {
         this.eventlist = {}
