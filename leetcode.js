@@ -622,3 +622,38 @@ LRUCache.prototype.put = function (key, value) {
     }
   }
 };
+
+
+/* 最长递增子序列 */
+/* 贪心+二分查找 */
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var lengthOfLIS = function (nums) {
+  const n = nums.length;
+  let d = new Array(n + 1);
+  d[1] = nums[0];
+  let len = 1;
+  for (i = 0; i <= n; i++) {
+    if (nums[i] > d[len]) {
+      d[++len] = nums[i]
+    } else {
+      //二分查找
+      let pos = 0;
+      let left = 1, right = len;
+      let mid = 0;
+      while (left <= right) {
+        mid = (left + right) >> 1;
+        if (d[mid] < nums[i]) {
+          pos = mid
+          left = mid + 1;
+        } else {
+          right = mid - 1;
+        }
+      }
+      d[pos + 1] = nums[i]
+    }
+  }
+  return len
+};
