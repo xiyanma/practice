@@ -117,3 +117,20 @@ const logStr = log(1000);
 logStr(1);
 logStr(2);
 logStr(3);
+
+
+/* 实现repeat函数 */
+function myRepeat(fn, times, wait) {
+    return function (content) {
+        let count = 0;
+        var timer = setInterval(() => {
+            count += 1;
+            fn(content)
+            if (count === times) {
+                clearInterval(timer)
+            }
+        }, wait)
+    }
+}
+const repeatFun = myRepeat(console.log, 4, 2000)
+repeatFun('你好');
