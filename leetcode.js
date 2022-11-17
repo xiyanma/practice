@@ -692,3 +692,20 @@ Output = 2 ([1, 1], [2])
 N = 5
 Output = 4 ([1, 1, 1, 1, 1], [1, 1, 1, 2], [1, 2, 2], [5])
 */
+
+
+/* 相交链表 */
+//哈希表法
+/* 双指针交叉法 */
+var getIntersectionNode = function (headA, headB) {
+  let pA = headA;
+  let pB = headB;
+  while (pA || pB) {
+    if (!pA) pA = headB
+    if (!pB) pB = headA
+    if (pA === pB) return pA
+    pA = pA.next;
+    pB = pB.next;
+  }
+  return null
+};
