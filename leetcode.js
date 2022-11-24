@@ -709,3 +709,30 @@ var getIntersectionNode = function (headA, headB) {
   }
   return null
 };
+
+
+/* 33.搜索旋转排序数组 */
+var search = function (nums, target) {
+  const n = nums.length;
+  let left = 0, right = n - 1;
+  if (n === 0) return -1;
+  while (left <= right) {
+    let mid = (left + right) >> 1;
+    if (target === nums[mid]) return mid
+    if (nums[mid] >= nums[0]) {//左边连续
+      // 不要写成nums[0] <= target < nums[mid]，没有这种语法
+      if (nums[0] <= target && target < nums[mid]) {
+        right = mid - 1;
+      } else {
+        left = mid + 1
+      }
+    } else {//右边连续
+      if (nums[mid] < target && target <= nums[n - 1]) {
+        left = mid + 1
+      } else {
+        right = mid - 1;
+      }
+    }
+  }
+  return -1
+};
