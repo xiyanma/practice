@@ -588,6 +588,7 @@ cache.get(1);       // 返回 -1 (未找到)
 cache.get(3);       // 返回  3
 cache.get(4);       // 返回  4
 */
+/* 法一：map */
 /**
  * @param {number} capacity
  */
@@ -622,6 +623,8 @@ LRUCache.prototype.put = function (key, value) {
     }
   }
 };
+/* 法二：哈希表+双向链表。注意哈希表用{}存，不要用Set() */
+//todo
 
 
 /* 最长递增子序列 */
@@ -736,3 +739,5 @@ var search = function (nums, target) {
   }
   return -1
 };
+
+
