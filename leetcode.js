@@ -830,3 +830,19 @@ function includes(t, p) {
   }
   return false
 }
+
+
+/* 生成交替二进制字符串的最少操作数
+给你一个仅由字符 '0' 和 '1' 组成的字符串 s 。一步操作中，你可以将任一 '0' 变成 '1' ，或者将 '1' 变成 '0' 。
+ */
+//0开头的操作数+1开头的操作数===s.length
+var minOperations = function (s) {
+  let headCode = 0;
+  let count = 0;
+  for (i = 0; i < s.length; i++) {
+    if (s.charAt(i) !== String(i % 2)) {
+      count++
+    }
+  }
+  return Math.min(count, s.length - count)
+};
