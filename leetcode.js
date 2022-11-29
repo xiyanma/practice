@@ -741,3 +741,92 @@ var search = function (nums, target) {
 };
 
 
+/* tb 1 */
+/*
+问题 1：给定一个 URL，输出该 URL 的参数（URL Query）Map
+*/
+//应该用split 转数组呀，分割三次：？，&，=，
+const urlStr = 'https://pages.tmall.com/wow/hdwk/act/2020nhj-single?wh_biz=tm&disableNav=YES&disableNav=NO&disableProgress=YES&hd_from=alipay_mayifarm&hd_from_id=100085&sceneId=972&deliveryId=8945&task_type=callapp&sceneCode=FUGUO&implId=other_0_158001_8945_0&query=spm&prismFrom=alipay_mayifarm&slk_gid=gid_er_er%7Cgid_er_evoke_ui_2%7Cgid_er_af_pop%7Cgid_er_sidebar_1&_afc_link=1&utparamcnt=%7B%22_afc_link%22%3A%221%22%7D#state';
+
+function getQuery(url) {
+  const retMap = new Map();
+  let keyStack = '';
+  let valueStack = '';
+
+  for (i = 0; i < urlStr.length; i++) {
+    if (i > 0 && urlStr.charAt(i - 1) === '&' || urlStr.charAt(i - 1) === '?' || keyStack.length !== 0) {
+      keyStack += urlStr.charAt(i);
+    } else if (urlStr.charAt(i - 1) === '=' || valueStack.length !== 0) {
+      valueStack += urlStr.charAt(i)
+    } else if (urlStr.charAt(i) === '&') {
+      retMap.set(keyStack, valueStack);
+      keyStack = '';
+      valueStack = '';
+    }
+  }
+  return retMap;
+}
+console.log(getQuery(urlStr))
+
+
+/*
+问题 2：给定一组存在 ${a.b.c} 形式占位符的字符串和一组数据，将字符串中的占位替换成真实的数据并输出;
+*/
+const data = { date: '2022年9月', model: 'iPhone 14', price: { startPrice: 5999 } };
+
+const tpl = '苹果公司在 ${date} 发布了全新的 ${model} 系列手机，起售价格 ${price.startPrice} 元';
+
+function getTpl(data, tpl) {
+  const retArr = [];
+  let preKeyStack = [];
+  for (i = 0; i < tpl.length; i++) {
+    if (tpl.charAt(i) === '}') {
+
+      while (preKeyStack) {
+        popStack(preKeyStack)
+      }
+      function popStack(preKeyStack) {
+        for (i = preKeyStack.length; i >= 0; i--) {
+          if (preKeyStack[i] === '{') {
+            const key = preKeyStack.splice(i, preKeyStack.length).join('');
+            retArr.push(data[key]);
+          }
+        }
+      }
+
+      retArr.push(data[key]);
+    } else if (i > 0 && tpl.charAt(i - 1) === '{' || preKeyStack.length !== 0) {
+      preKeyStack.push(tpl.charAt(i));
+    } else if (tpl.charAt(i) !== '$' && tpl.charAt(i) !== '{') {
+      retArr.push(tpl.charAt(i))
+    }
+  }
+  return retArr.join('');
+}
+console.log(getTpl(data, tpl))
+
+
+/* 
+3. 字符串匹配，判断文本 t 中是否存在 p。请勿使用 String.prototype.indexOf，正则匹配 等 JavaScript 提供的原生方法
+例如，  t = "abcd"   p = 'ab' 字符子串
+ */
+//todo 相等的情况
+const t = 'abcd', p = 'abcd';
+console.log(includes(t, p));
+function includes(t, p) {
+  let p1 = 0;
+  let p2 = 0;
+  while (t.charAt(p1)) {
+    if (p.charAt(p2) !== '') {
+      if (t.charAt(p1) === p.charAt(p2)) {
+        p2++;
+        p1++;
+      } else {
+        p2 = 0;
+      };
+    } else {
+      return true
+    }
+  }
+  return false
+}
