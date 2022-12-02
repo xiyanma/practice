@@ -134,3 +134,30 @@ function myRepeat(fn, times, wait) {
 }
 const repeatFun = myRepeat(console.log, 4, 2000)
 repeatFun('你好');
+
+
+/* 对一个宽高都是100px的div实现拖拽效果 */
+import { useRef } from 'react';
+
+const myComponent = () => {
+    const myComponentRef = useRef();
+    const handler = (e) => {
+
+        myComponentRef.left = e.clientX;
+        myComponentRef.top = e.clientY;
+
+    }
+    const ctx = document.getElementById('myComponent');
+    ctx.addEventListener('mousedown', handler);
+    ctx.addEventListener('mousemove', handler);
+
+    return (
+        <div id='myComponent' style={{ position: 'absulote', left: 0, top: 0, width: '100', height: '100' }} ref={myComponentRef} >
+
+        </div>
+    )
+}
+
+export default myComponent;
+//todo 这样的问题：鼠标点在div里面，div的位置的左上角会突变移动到鼠标位置上，可以计算偏移量，保存下来。
+

@@ -781,20 +781,10 @@ function getTpl(data, tpl) {
   let preKeyStack = [];
   for (i = 0; i < tpl.length; i++) {
     if (tpl.charAt(i) === '}') {
-
-      while (preKeyStack) {
-        popStack(preKeyStack)
-      }
-      function popStack(preKeyStack) {
-        for (i = preKeyStack.length; i >= 0; i--) {
-          if (preKeyStack[i] === '{') {
-            const key = preKeyStack.splice(i, preKeyStack.length).join('');
-            retArr.push(data[key]);
-          }
-        }
-      }
-
-      retArr.push(data[key]);
+      const key = preKeyStack.join('');
+      const value = data[key];
+      retArr.push(value);
+      preKeyStack.splice(0, preKeyStack.length);
     } else if (i > 0 && tpl.charAt(i - 1) === '{' || preKeyStack.length !== 0) {
       preKeyStack.push(tpl.charAt(i));
     } else if (tpl.charAt(i) !== '$' && tpl.charAt(i) !== '{') {
@@ -802,8 +792,8 @@ function getTpl(data, tpl) {
     }
   }
   return retArr.join('');
-}
-console.log(getTpl(data, tpl))
+};
+console.log(getTpl(data, tpl));
 
 
 /* 
@@ -812,11 +802,10 @@ console.log(getTpl(data, tpl))
  */
 //todo 相等的情况
 const t = 'abcd', p = 'abcd';
-console.log(includes(t, p));
 function includes(t, p) {
   let p1 = 0;
   let p2 = 0;
-  while (t.charAt(p1)) {
+  while (t.charAt(p1) !== '' || p1 === p2) {
     if (p.charAt(p2) !== '') {
       if (t.charAt(p1) === p.charAt(p2)) {
         p2++;
@@ -830,6 +819,7 @@ function includes(t, p) {
   }
   return false
 }
+console.log(includes(t, p));
 
 
 /* 生成交替二进制字符串的最少操作数
@@ -846,3 +836,25 @@ var minOperations = function (s) {
   }
   return Math.min(count, s.length - count)
 };
+
+
+/* 查询子字符串出现的位置，返回二维数组 */
+//let par = 'abcbbc';
+//let child = 'bc';
+//ret =[[1,3],[4,6]]
+//  par.search(/bc/);
+let par = 'abcbbc';
+let child = 'bc';
+function fn(par, child) {
+  if (typeof (par) !== 'string' || typeof (child) !== 'string') return [];
+  const ret = [];
+  const n = child.length;
+  for (i = 0; i + n < par.length; i + n) {
+    if (par.charAt(i) === child.charAt(0)) {
+      const str = par.substr(0, n);
+      if (str === child) ret.push([i, i + n])
+    }
+  }
+  return ret
+}
+console.log(fn(par, child));
