@@ -858,3 +858,25 @@ function fn(par, child) {
   return ret
 }
 console.log(fn(par, child));
+
+
+/* 用1-5随机函数实现1-7随机 */
+const gen = new Array(7).fill(0);
+for (let i in Range(0, 100000)) {
+  const circle = new Array(35).fill(0);
+  for (j in Range(0, 7)) {
+    let k = random(0, 4);
+    circle[k + 5 * j] = 1
+
+  }
+
+  for (l in range(0, 5)) {
+    for (m in range(0, 7)) {
+      if (circle[m + 7 * l] === 1)
+        gen[m] += 1
+    }
+  }
+}
+
+
+
