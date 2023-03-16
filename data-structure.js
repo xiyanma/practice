@@ -24,3 +24,6 @@ console.log(myQueue.out());
 console.log(myQueue.out());
 console.log(myQueue.out());
 console.log(myQueue.out());
+
+
+/* 双向链表 */
