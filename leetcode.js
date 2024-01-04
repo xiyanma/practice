@@ -560,10 +560,13 @@ XXX * XX
 输入 [1, 2, 3, 2, 1, 5, 5]
 输出 3
 */
+// 一个数和0做异或运算，结果仍然是原来的数，即 n^0=n。
+//一个数和其自身做异或运算，结果是0，即 n^n=0。
+//异或运算满足交换律和结合律，即 abc = a(bc) = (ab)c。
 const arr = [1, 2, 3, 2, 1, 5, 5];
 let ret = 0;
 function fn() {
-  for (leti = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     ret = arr[i] ^ ret
   }
   return ret
@@ -776,50 +779,77 @@ const data = { date: '2022年9月', model: 'iPhone 14', price: { startPrice: 599
 
 const tpl = '苹果公司在 ${date} 发布了全新的 ${model} 系列手机，起售价格 ${price.startPrice} 元';
 
+// function getTpl(data, tpl) {
+//   const retArr = [];
+//   let preKeyStack = [];
+//   for (i = 0; i < tpl.length; i++) {
+//     if (tpl.charAt(i) === '}') {
+//       const key = preKeyStack.join('');
+//       const value = data[key];
+//       retArr.push(value);
+//       preKeyStack.splice(0, preKeyStack.length);
+//     } else if (i > 0 && tpl.charAt(i - 1) === '{' || preKeyStack.length !== 0) {
+//       preKeyStack.push(tpl.charAt(i));
+//     } else if (tpl.charAt(i) !== '$' && tpl.charAt(i) !== '{') {
+//       retArr.push(tpl.charAt(i))
+//     }
+//   }
+//   return retArr.join('');
+// };
+// console.log(getTpl(data, tpl));
+
 function getTpl(data, tpl) {
-  const retArr = [];
-  let preKeyStack = [];
-  for (i = 0; i < tpl.length; i++) {
-    if (tpl.charAt(i) === '}') {
-      const key = preKeyStack.join('');
-      const value = data[key];
-      retArr.push(value);
-      preKeyStack.splice(0, preKeyStack.length);
-    } else if (i > 0 && tpl.charAt(i - 1) === '{' || preKeyStack.length !== 0) {
-      preKeyStack.push(tpl.charAt(i));
-    } else if (tpl.charAt(i) !== '$' && tpl.charAt(i) !== '{') {
-      retArr.push(tpl.charAt(i))
-    }
-  }
-  return retArr.join('');
-};
-console.log(getTpl(data, tpl));
+    const result = tpl.replace(/\$\{([^\}]+)\}/g, (match, p1) => {
+        const keys = p1.split('.');
+        let value = data;
+        for(let k of keys) {
+            value = value[k];
+        }
+        return value;
+    });
+    return result;
+}
+console.log(getTpl(data, tpl));  
+/*
+正则表达式 `/\$\{([^\}]+)\}/g` 是用来匹配形如 `${变量}` 的占位符的。下面是这个正则表达式的分段解释：
 
+1. `\$`：`\` 是转义符，用来表示特殊字符，这里用来表示特殊字符 `$`。实际需要匹配的就是 `$` 字符。
 
+2. `\{` and `\}`：这两个是匹配字符 `{` 和 `}` 的，`\{` 代表 `{`，`\}` 代表 `}`。
+
+3. `([^\}]+)`：`[^...]` 匹配除了括号里面的任意字符，这里 `^\}` 就对应 `}` 以外的任意字符，`+` 表示前面的字符可以出现一次或多次，所以 `([^\}]+)` 整体代表 `}` 以外的一串字符。
+
+4. `/\$\{([^\}]+)\}/g`：这个正则表达式整体就是用来匹配形如 `${变量}` 的占位符的，其中变量部分可以包含除 `}` 以外的任意字符。后面加上 `g` 是用来表示全局匹配。
+
+所以，如果你的字符串形如 "Hello, ${name}!"，那么这个正则表达式就能匹配中间的 "${name}" 部分。
+*/
 /* 
+
+
 3. 字符串匹配，判断文本 t 中是否存在 p。请勿使用 String.prototype.indexOf，正则匹配 等 JavaScript 提供的原生方法
 例如，  t = "abcd"   p = 'ab' 字符子串
+
+滑动窗口策略解决。我们可以通过移动一个和 p 等长的窗口，比较窗口和 p 是否相等。
  */
-//todo 相等的情况
-const t = 'abcd', p = 'abcd';
 function includes(t, p) {
-  let p1 = 0;
-  let p2 = 0;
-  while (t.charAt(p1) !== '' || p1 === p2) {
-    if (p.charAt(p2) !== '') {
-      if (t.charAt(p1) === p.charAt(p2)) {
-        p2++;
-        p1++;
-      } else {
-        p2 = 0;
-      };
-    } else {
-      return true
+  const n = t.length, m = p.length;
+  if (n < m) return false;
+  const p_arr = [...p], t_arr = [...t];
+  for (let i = 0; i < n - m + 1; i++) {
+    let flag = true;
+    for (let j = 0; j < m; j++) {
+      if (t_arr[i + j] !== p_arr[j]) {
+        flag = false;
+        break;
+      }
     }
+    if (flag) return true;
   }
-  return false
+  return false;
 }
-console.log(includes(t, p));
+
+const t = 'abcd', p = 'abcd';
+console.log(includes(t, p));  // 输出：true
 
 
 /* 生成交替二进制字符串的最少操作数
