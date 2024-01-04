@@ -119,6 +119,23 @@ logStr(2);
 logStr(3);
 
 
+class Events {
+    log(interval) {
+        let startTime = Date.now();
+        return (msg) => {
+            setTimeout(() => {
+                console.log(msg);      
+            }, Date.now() - start_time);
+            start_time += interval;
+        }
+    }
+}
+
+const logStr = (new Events()).log(1000);
+logStr(1); 
+logStr(2); 
+logStr(3);
+
 /* 实现repeat函数 */
 function myRepeat(fn, times, wait) {
     return function (content) {
